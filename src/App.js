@@ -1,12 +1,13 @@
-import './App.css';
+import React from 'react';
+import "./App.less";
+import Routes from "./Containers/Routes/Routes.js"
 
 function App() {
-  return (
-    <div className="App">
-      <h1>Hello World</h1>
-      <h3>It's me, Hemel</h3>
-    </div>
-  );
+	return (
+		<React.Fragment>
+			<Routes></Routes>
+		</React.Fragment>
+	);
 }
 
 export default App;
