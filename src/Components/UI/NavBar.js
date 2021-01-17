@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Button, Layout, Menu } from "antd";
+import { Layout, Menu } from "antd";
 import "./NavBar.less";
 
-const { Header, Content, Footer } = Layout;
+const { Header } = Layout;
 
 const NavBar = (props) => {
 	return (
@@ -12,7 +12,6 @@ const NavBar = (props) => {
 				<Menu
 					theme="light"
 					mode="horizontal"
-					defaultSelectedKeys={[props.config.defaultSelected]}
 					selectedKeys={[props.selectedTab]}
 				>
 					{props.config.options.map((elem) => {

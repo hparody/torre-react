@@ -5,8 +5,11 @@ import {
 	Switch,
 	Redirect,
 } from "react-router-dom";
-import Home from "../Home/Home";
 import NavBar from "../../Components/UI/NavBar";
+import Home from "../Home/Home";
+import Users from "../Users/Users";
+import Jobs from "../Jobs/Jobs";
+
 import {
 	HomeOutlined,
 	UserOutlined,
@@ -52,14 +55,37 @@ const Routes = (props) => {
 			<Router>
 				<NavBar config={navBarConfig} selectedTab={selectedTab}></NavBar>
 				<Switch>
-					<Route path="/" exact component={Home} />
+					<Route
+						path="/"
+						exact
+						component={() => {
+							setSelectedTab("home");
+							return <Home></Home>;
+						}}
+					/>
+					<Route
+						path="/users"
+						exact
+						component={() => {
+							setSelectedTab("users");
+							return <Users></Users>;
+						}}
+					/>
+					<Route
+						path="/jobs"
+						exact
+						component={() => {
+							setSelectedTab("jobs");
+							return <Jobs></Jobs>;
+						}}
+					/>
 					<Route
 						path="/about"
+						exact
 						component={() => {
 							window.open(
 								"https://web.torre.co/about-torre?_ga=2.184021094.1912944284.1610807779-134964990.1610509679"
 							);
-							console.log("Done");
 							setSelectedTab(navBarConfig.defaultSelected);
 							return <Redirect to="/" />;
 						}}
