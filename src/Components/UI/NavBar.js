@@ -13,6 +13,7 @@ const NavBar = (props) => {
 					theme="light"
 					mode="horizontal"
 					defaultSelectedKeys={[props.config.defaultSelected]}
+					selectedKeys={[props.selectedTab]}
 				>
 					{props.config.options.map((elem) => {
 						return (
