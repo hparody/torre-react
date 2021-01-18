@@ -1,10 +1,30 @@
 import React from "react";
-import NoResult from "../../Components/UI/No Result/No Result";
-import Loader from "../../Components/UI/Loader/Loader";
-import UsersCard from "../../Components/Users/Users Card";
+import NoResult from "../No Result/No Result";
+import Loader from "../Loader/Loader";
+import UsersCard from "../../Users/Users Card";
+import JobsCard from "../../Jobs/Jobs Card";
 import { Col,Empty } from "antd";
 
 const SearchUsersResults = (props) => {
+
+	const cardElement = (cardOptions) => {
+		let component;
+		switch (props.searchingFor) {
+			case "users":
+				component = <UsersCard {...cardOptions}></UsersCard>;
+				break;
+
+			case "jobs":
+				component = <JobsCard {...cardOptions}></JobsCard>;
+				break;
+
+			default:
+				component = null;
+				break;
+		}
+		return component;
+	};
+	
     let bodyElement;
 
     if (props.loading) {
@@ -13,7 +33,7 @@ const SearchUsersResults = (props) => {
 		if (props.currentSearch === "") {
 			bodyElement = (
 				<Empty
-					description="Search for an user"
+					description={props.descriptionWhenEmpty}
 					style={{ margin: "20px 0px" }}
 					imageStyle={{
 						height: 150,
@@ -26,7 +46,7 @@ const SearchUsersResults = (props) => {
 					return (
 						<React.Fragment>
 							<Col xs={20} md={10} span={10}>
-								<UsersCard {...elem}></UsersCard>
+								{cardElement(elem)}
 							</Col>
 						</React.Fragment>
 					);
@@ -34,8 +54,8 @@ const SearchUsersResults = (props) => {
 			} else {
 				bodyElement = (
 					<NoResult
-						title="No users found"
-						subtitle="Sorry, there are no users matching your search."
+						title={props.noResultTilte}
+						subtitle={props.noResultSubtitle}
 					></NoResult>
 				);
 			}

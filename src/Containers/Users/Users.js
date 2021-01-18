@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Divider, Empty } from "antd";
+import { Row, Col, Divider, Button } from "antd";
 import SearchBar from "../../Components/UI/Search Bar/Search Bar";
 import Requests from "../../Components/Requests/Requests";
-import UsersResults from "../../Components/Users/Search Results";
+import SearchResults from "../../Components/UI/Search Results/Search Results";
 import Pagination from "../../Components/UI/Pagination/Pagination";
+import { CloudDownloadOutlined } from "@ant-design/icons";
 
 const PAGE_SIZE = 20;
 
 const Users = (props) => {
 	const [loading, setLoading] = useState(false);
+	const [loadingMoreUsers, setLoadingMoreUsers] = useState(false);
 	const [currentSearch, setCurrentSearch] = useState("");
 	const [allData, setAllData] = useState([]);
 	const [currentPageData, setCurrentPageData] = useState([]);
 	const [currentPage, setCurrentPage] = useState(1);
+	const [lastPage, setLastPage] = useState(1);
 	const [totalUsersInSearch, setTotalUsersInSearch] = useState(1);
 
 	function searchUsers(search) {
@@ -21,6 +24,9 @@ const Users = (props) => {
 		if (search === "") {
 			setAllData([]);
 			setCurrentPageData([]);
+			setTotalUsersInSearch(1);
+			setCurrentPage(1);
+			setLastPage(1);
 			setLoading(false);
 		} else {
 			setLoading(true);
@@ -33,8 +39,9 @@ const Users = (props) => {
 				.then((res) => {
 					setAllData(res.results);
 					setCurrentPage(1);
-					const totalNumOfUsers = res.results.length;
-					setTotalUsersInSearch(totalNumOfUsers);
+					setTotalUsersInSearch(res.results.length);
+					const lastPage = Math.ceil(res.results.length / PAGE_SIZE);
+					setLastPage(lastPage);
 					if (res.results.length > 0) {
 						let currentPageData;
 						if (res.results.length > PAGE_SIZE) {
@@ -74,7 +81,47 @@ const Users = (props) => {
 			currentPageData = allData;
 			setCurrentPageData(currentPageData);
 		}
+		if (selectedPage === lastPage) {
+			setLastPage(selectedPage);
+		}
 		setLoading(false);
+	};
+
+	const loadMoreUsers = () => {
+		setLoadingMoreUsers(true);
+		const searchConfigs = {
+			searchType: "users",
+			search: currentSearch,
+			offset: currentPage * PAGE_SIZE,
+		};
+		Requests.searchMultiple(searchConfigs)
+			.then((res) => {
+				console.log(res);
+				const newAllData = allData.concat(res.results);
+				console.log("Data:", newAllData);
+				setAllData(newAllData);
+				setTotalUsersInSearch(newAllData.length);
+				const lastPage = Math.ceil(newAllData.length / PAGE_SIZE);
+				setLastPage(lastPage);
+				if (res.results.length > 0) {
+					let currentPageData;
+					if (res.results.length > PAGE_SIZE) {
+						currentPageData = res.results.slice(0, PAGE_SIZE);
+						setCurrentPageData(currentPageData);
+					} else {
+						currentPageData = res.results;
+						setCurrentPageData(currentPageData);
+					}
+				} else {
+					setCurrentPageData([]);
+				}
+				setCurrentPage(currentPage + 1);
+				setLoadingMoreUsers(false);
+			})
+			.catch((err) => {
+				console.log(err);
+				setLoadingMoreUsers(false);
+			});
 	};
 
 	const searchBarConfigs = {
@@ -92,12 +139,34 @@ const Users = (props) => {
 				</Col>
 			</Row>
 			<Row justify="center" align="middle" className="users-container">
-				<UsersResults
+				<SearchResults
+					searchingFor={"users"}
 					loading={loading}
 					currentSearch={currentSearch}
 					currentPageData={currentPageData}
-				></UsersResults>
+					descriptionWhenEmpty={"Search for an user"}
+					noResultTilte={"No users found"}
+					noResultSubtitle={"Sorry, there are no users matching your search."}
+				></SearchResults>
 			</Row>
+			{currentPage === lastPage && lastPage !== 1 ? (
+				<Row justify="center" align="middle" className="align-center-h">
+					<Col span={20}>
+						<Button
+							type="primary"
+							icon={<CloudDownloadOutlined />}
+							size={"large"}
+							loading={loadingMoreUsers}
+							style={{ marginTop: "10px" }}
+							onClick={loadMoreUsers}
+						>
+							Load More
+						</Button>
+					</Col>
+				</Row>
+			) : (
+				""
+			)}
 			<Row justify="center" align="middle">
 				<Col span={20}>
 					<Pagination
