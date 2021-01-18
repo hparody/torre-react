@@ -52,7 +52,7 @@ const JobsCard = (props) => {
 				""
 			)}
 			<br></br>
-			{skills !== null ? (
+			{skills !== null && skills.length > 0 ? (
 				<React.Fragment>
 					<Divider orientation="left" className="card-divider">
 						Skills

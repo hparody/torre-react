@@ -40,6 +40,7 @@ const Jobs = (props) => {
 				.then((res) => {
 					console.log(res);
 					setAllData(res.results);
+					setTotalCoincidences(res.total);
 					setCurrentPage(1);
 					setTotalJobsInSearch(res.results.length);
 					const lastPage = Math.ceil(res.results.length / PAGE_SIZE);
@@ -100,8 +101,8 @@ const Jobs = (props) => {
 			.then((res) => {
 				console.log(res);
 				const newAllData = allData.concat(res.results);
-				console.log("Data:", newAllData);
 				setAllData(newAllData);
+				setTotalCoincidences(res.total);
 				setTotalJobsInSearch(newAllData.length);
 				const lastPage = Math.ceil(newAllData.length / PAGE_SIZE);
 				setLastPage(lastPage);
@@ -128,7 +129,7 @@ const Jobs = (props) => {
 
 	const searchBarConfigs = {
 		loading: loading,
-		placeholder: "Search some job opportunities!",
+		placeholder: "Search for some job opportunities!",
 		onSearch: searchJobs,
 	};
 
@@ -151,7 +152,9 @@ const Jobs = (props) => {
 					noResultSubtitle={"Sorry, there are no jobs matching your search."}
 				></SearchResults>
 			</Row>
-			{currentPage === lastPage && lastPage !== 1 ? (
+			{!loading && currentPage === lastPage &&
+			lastPage !== 1 &&
+			totalCoincidences !== totalJobsInSearch ? (
 				<Row justify="center" align="middle" className="align-center-h">
 					<Col span={20}>
 						<Button

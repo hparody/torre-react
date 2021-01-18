@@ -17,6 +17,7 @@ const Users = (props) => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [lastPage, setLastPage] = useState(1);
 	const [totalUsersInSearch, setTotalUsersInSearch] = useState(1);
+	const [totalCoincidences, setTotalCoincidences] = useState(0);
 
 	function searchUsers(search) {
 		console.log("Searching: " + search);
@@ -38,6 +39,7 @@ const Users = (props) => {
 			Requests.searchMultiple(searchConfigs)
 				.then((res) => {
 					setAllData(res.results);
+					setTotalCoincidences(res.total);
 					setCurrentPage(1);
 					setTotalUsersInSearch(res.results.length);
 					const lastPage = Math.ceil(res.results.length / PAGE_SIZE);
@@ -100,6 +102,7 @@ const Users = (props) => {
 				const newAllData = allData.concat(res.results);
 				console.log("Data:", newAllData);
 				setAllData(newAllData);
+				setTotalCoincidences(res.total);
 				setTotalUsersInSearch(newAllData.length);
 				const lastPage = Math.ceil(newAllData.length / PAGE_SIZE);
 				setLastPage(lastPage);
@@ -126,7 +129,7 @@ const Users = (props) => {
 
 	const searchBarConfigs = {
 		loading: loading,
-		placeholder: "Search for someone...",
+		placeholder: "Search for someone!",
 		onSearch: searchUsers,
 	};
 
@@ -149,7 +152,9 @@ const Users = (props) => {
 					noResultSubtitle={"Sorry, there are no users matching your search."}
 				></SearchResults>
 			</Row>
-			{currentPage === lastPage && lastPage !== 1 ? (
+			{!loading && currentPage === lastPage &&
+			lastPage !== 1 &&
+			totalCoincidences !== totalUsersInSearch ? (
 				<Row justify="center" align="middle" className="align-center-h">
 					<Col span={20}>
 						<Button
