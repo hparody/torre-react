@@ -5,7 +5,7 @@ import {
 	Switch,
 	Redirect,
 } from "react-router-dom";
-import NavBar from "../../Components/UI/NavBar";
+import NavBar from "../../Components/UI/NavBar/NavBar";
 import Home from "../Home/Home";
 import Users from "../Users/Users";
 import Jobs from "../Jobs/Jobs";
