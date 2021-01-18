@@ -17,6 +17,7 @@ const Jobs = (props) => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [lastPage, setLastPage] = useState(1);
 	const [totalJobsInSearch, setTotalJobsInSearch] = useState(1);
+	const [totalCoincidences, setTotalCoincidences] = useState(0);
 
 	function searchJobs(search) {
 		console.log("Searching: " + search);
@@ -91,7 +92,7 @@ const Jobs = (props) => {
 	const loadMoreJobs = () => {
 		setLoadingMoreJobs(true);
 		const searchConfigs = {
-			searchType: "users",
+			searchType: "jobs",
 			search: currentSearch,
 			offset: currentPage * PAGE_SIZE,
 		};
@@ -140,14 +141,15 @@ const Jobs = (props) => {
 				</Col>
 			</Row>
 			<Row justify="center" align="middle" className="jobs-container">
-				{/*<SearchResults
+				<SearchResults
+					searchingFor={"jobs"}
 					loading={loading}
 					currentSearch={currentSearch}
 					currentPageData={currentPageData}
 					descriptionWhenEmpty={"Search for a job opportunity"}
 					noResultTilte={"No jobs found"}
 					noResultSubtitle={"Sorry, there are no jobs matching your search."}
-				></SearchResults>*/}
+				></SearchResults>
 			</Row>
 			{currentPage === lastPage && lastPage !== 1 ? (
 				<Row justify="center" align="middle" className="align-center-h">

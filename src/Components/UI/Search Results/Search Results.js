@@ -3,7 +3,7 @@ import NoResult from "../No Result/No Result";
 import Loader from "../Loader/Loader";
 import UsersCard from "../../Users/Users Card";
 import JobsCard from "../../Jobs/Jobs Card";
-import { Col,Empty } from "antd";
+import { Col, Empty } from "antd";
 
 const SearchUsersResults = (props) => {
 
@@ -24,10 +24,10 @@ const SearchUsersResults = (props) => {
 		}
 		return component;
 	};
-	
-    let bodyElement;
 
-    if (props.loading) {
+	let bodyElement;
+
+	if (props.loading) {
 		bodyElement = <Loader></Loader>;
 	} else {
 		if (props.currentSearch === "") {
@@ -61,7 +61,7 @@ const SearchUsersResults = (props) => {
 			}
 		}
 	}
-    return bodyElement;
+	return bodyElement;
 };
 
 export default SearchUsersResults;
