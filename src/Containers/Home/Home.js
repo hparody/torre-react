@@ -2,11 +2,10 @@ import React from "react";
 import { Button, Row, Col, Typography, Space } from "antd";
 import HomeImage from "../../Assets/Images/torre-logo.png";
 import { useHistory } from "react-router-dom";
+import Texty from "rc-texty";
+import Animate from "rc-animate";
 import "./Home.less";
-import {
-	UserOutlined,
-	AimOutlined,
-} from "@ant-design/icons";
+import { UserOutlined, AimOutlined } from "@ant-design/icons";
 const { Title } = Typography;
 
 const Home = (props) => {
@@ -17,12 +16,18 @@ const Home = (props) => {
 				<Col span={20}>
 					<Row justify="center" className="align-center-h">
 						<Col xs={24}>
-							<img
-								className="homepage-img"
-								src={HomeImage}
-								alt={"Homepage"}
-							></img>
-							<Title>The Next-Generation Professional Network</Title>
+							<Animate transitionName="fade" transitionAppear={true}>
+								<img
+									className="homepage-img"
+									src={HomeImage}
+									alt={"Homepage"}
+								></img>
+							</Animate>
+							<Title>
+								<Texty type={"swing-rotate"} mode={"smooth"}>
+									The Next-Generation Professional Network
+								</Texty>
+							</Title>
 						</Col>
 					</Row>
 					<Row justify="center" className="align-center-h homepage-btn-section">
@@ -60,6 +65,6 @@ const Home = (props) => {
 const redirectTo = (history, section) => {
 	history.push("/" + section);
 	console.log("Done");
-}
+};
 
 export default Home;
