@@ -34,7 +34,13 @@ const UsersCard = (props) => {
 	);
 
 	return (
-		<Card style={{ width: "90%", margin: "10px auto" }} hoverable>
+		<Card
+			style={{ width: "90%", margin: "10px auto" }}
+			hoverable
+			onClick={() => {
+				window.open("https://bio.torre.co/es/" + props.username, "_blank");
+			}}
+		>
 			<Skeleton loading={false} avatar active>
 				<Meta
 					className="users-card-content"

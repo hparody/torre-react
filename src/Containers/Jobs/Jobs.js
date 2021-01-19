@@ -38,7 +38,6 @@ const Jobs = (props) => {
 			};
 			Requests.searchMultiple(searchConfigs)
 				.then((res) => {
-					console.log(res);
 					setAllData(res.results);
 					setTotalCoincidences(res.total);
 					setCurrentPage(1);
@@ -99,7 +98,6 @@ const Jobs = (props) => {
 		};
 		Requests.searchMultiple(searchConfigs)
 			.then((res) => {
-				console.log(res);
 				const newAllData = allData.concat(res.results);
 				setAllData(newAllData);
 				setTotalCoincidences(res.total);

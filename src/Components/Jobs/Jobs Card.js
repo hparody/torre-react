@@ -1,5 +1,5 @@
 import React from "react";
-import { Skeleton, Card, Avatar, Typography, Tag, Divider } from "antd";
+import { Skeleton, Card, Avatar, Typography, Tag, Divider, Button } from "antd";
 import DefaultBusinessLogo from "../../Assets/Images/default-business-logo.png";
 import "./Jobs Cards.less";
 import { CheckCircleOutlined, ClockCircleOutlined } from "@ant-design/icons";
@@ -8,7 +8,15 @@ const { Meta } = Card;
 const { Text } = Typography;
 
 const JobsCard = (props) => {
-	const { objective, organizations, skills, type, locations, remote } = props;
+	const {
+		objective,
+		organizations,
+		skills,
+		type,
+		locations,
+		remote,
+		id,
+	} = props;
 
 	const org = {};
 	if (organizations !== null && organizations.length > 0) {
@@ -76,7 +84,13 @@ const JobsCard = (props) => {
 	);
 
 	return (
-		<Card style={{ width: "90%", margin: "10px auto" }} hoverable>
+		<Card
+			style={{ width: "90%", margin: "10px auto" }}
+			hoverable
+			onClick={() => {
+				window.open("https://torre.co/jobs/" + id, "_blank");
+			}}
+		>
 			<Skeleton loading={false} avatar active>
 				<Meta
 					className="jobs-card-content"
